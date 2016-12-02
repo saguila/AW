@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Saboteur</title>
+		<link href="saboteur.css" rel="stylesheet" type="text/css"/>
+		<script src="form.js" language="javascript" type="text/javascript"></script>
+	</head>
+	<body id="all">
+		<a href="index.html"><img src="pics/logo.png"></a>
+		<div id="encabezado">
+		
+		</div>
+		<div id="menu">
+			 <ul>
+				  <li><a href="login.html">LOGIN</a></li>
+				  <li><a href="formulario.html">NUEVO USUARIO</a></li>
+			</ul> 
+		</div>
+		<div id="container">
+			<p id="saludo"><strong> |&#160;Ingreso en el sistema</strong></p>
+			<form id="formulario" action="enviado.php" method="post">
+				<fieldset>
+					<label>Nombre de usuario:<class="as">*</></label>
+						<input id="campo1" name="nombre" type="text" /><br>
+					<label>Contraseña:<class="as">*</></label>
+						<input id="campo2" name="password" type="password" />	<br>
+						<input id="campo7" name="enviar" type="submit" value="Crear cuenta de usuario" />
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>
