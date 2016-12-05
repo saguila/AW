@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Saboteur</title>
+		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
+		<link href="/stylesheets/regform.css" rel="stylesheet" type="text/css"/>
+		<script src="/javascripts/form.js" language="javascript" type="text/javascript"></script>
+		<!-- Necesario para el date picker -->
+		<link href="/stylesheets/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		<script src="/javascripts/jquery.js" language="javascript" type="text/javascript"></script>
+		<script src="/javascripts/jquery-ui.min.js" language="javascript" type="text/javascript"></script>
+		<script>$( function() {$( "#datepicker" ).datepicker();} );</script>
+		<!-- http://api.jqueryui.com -->
+	</head>
+	<body id="all">
+		<%- include("cabecera") %>
+		<div id="container">
+			<p id="saludo"><strong> |&#160;Nuevo Usuario</strong></p>
+			<p id="texto">Introduce tus datos de usuario.Los campos marcos con asterisco(*)son obligatorios;</p>
+			<div class="contenedor-formulario">
+			  <div class="wrap">
+				<form action="/register" class="formulario" name="registro" method="POST">
+				  
+					<div class="input-group">
+					  <input type="text" id="nick" name="nick">
+						<label class="label" for="nick">Nick:</label>
+					</div>
+					<div class="input-group">
+						<input type="text" id="nombre" name="nombre">
+							<label class="label" for="nombre">Nombre Completo:</label>
+					</div>					
+					<div class="input-group radio">
+						<input type="radio" name="sexo" id="hombre" value="Hombre">
+							<label for="hombre">Hombre</label>
+						<input type="radio" name="sexo" id="mujer" value="Mujer">
+							<label for="mujer">Mujer</label>
+					</div>
+					<div class="input-group">
+						<input type="password" id="pass" name="pass">
+							<label class="label" for="pass">Contraseña:</label>
+					</div>
+					<div class="input-group">
+						<input type="password" id="pass2" name="pass2">
+							<label class="label" for="pass2">Repetir Contraseña:</label>
+					</div>
+					<div class="input-group">
+						<label>Foto:</label>
+							<input id="foto" name="foto" type="file" />	<br>
+						<label>Fecha de nacimiento:</label>
+						<input type="date" id="datepicker" name="fNacimiento">
+					</div>		
+					<input type="submit" id="btn-submit" value="Enviar">
+				</form>
+			  </div>
+			</div>
+			<a href="/">Volver a la página principal</a>
+		</div>	
+	
+	</body>
+</html>
+	<body>
+		
+	</body>
+</html>
