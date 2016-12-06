@@ -15,9 +15,12 @@ var consultas = require('./bin/consultasbd');
   console.log(result);
 });*/
 
-consultas.update('test',{name : "prueba"},{name:"SIUU!"},true,function(err,result) {
-console.log(result);
+consultas.mongooseClient(function(){
+
 });
+/*consultas.update('test',{name : "prueba"},{name:"SIUU!"},true,function(err,result) {
+console.log(result);
+});/*
 
 /*
 Borrar por id

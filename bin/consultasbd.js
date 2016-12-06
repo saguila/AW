@@ -2,8 +2,23 @@
 var URL_DB = 'mongodb://saboteurApp:3,14016pi@localhost:3001/saboteurDB';
 var mongoClient = require('mongodb').MongoClient; // https://mongodb.github.io/node-mongodb-native/index.html
 
+
 module.exports = {
 
+mongooseClient : function(f) {
+    var mongoose = require('mongoose');
+    mongoose.connect(URL_DB,{"server":{"socketOptions":{"KeepAlive":1}}});
+    mongoose.connection.on('connected',function(err){
+        if(err){
+            console.log('error,no conectado');
+        }
+        else {
+            console.log('connected');
+        }
+    });
+    f(mongoose);
+}
+,
 // Testeado Ok
 getAllArray : function(collectionName,func){
 mongoClient.connect(URL_DB, function(err, db) {

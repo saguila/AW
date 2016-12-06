@@ -6,12 +6,12 @@ var schema = mongoose.Schema;
 
 /* Creamos un esquema para los usuarios */
 var esquemaUsuario = new schema({
-  name: String,
+  name: String/*,
   nick: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   sexo: { type: String, required:true },
   fechaNacimiento: { type : Date, required: true },
-  rutaFoto: String
+  rutaFoto: String*/
 });
 
 /*
