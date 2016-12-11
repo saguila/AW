@@ -1,5 +1,5 @@
 #!/bin/bash
 # Script que lanza abre base de datos lanza la app y al hacer Ctrl+C cierra la BD
-mongod --dbpath ./db-linux --nojournal --smallfiles --port 3001 --replSet saboteurRS &
+mongod --dbpath ./db-linux --nojournal --smallfiles --port 3001 --replSet saboteurRS >> /dev/zero &
 DEBUG=myapp:* npm start
 trap 'kill `pidof mongod`' INT

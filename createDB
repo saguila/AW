@@ -1,0 +1,24 @@
+#!/bin/bash
+# instalamos las dependencias
+npm install >> /dev/zero &
+# Si existe la carpeta la borramos
+if [ -d ./db-linux ];
+then
+rm -rf ./db-linux
+fi
+# Creamos la carpeta de la BD
+mkdir -p ./db-linux
+#lanzamos el servidor en BackGround & y las salidas las redirigimos a /dev/zero para que no este dando la lata
+mongod --smallfiles --nojournal --dbpath ./db-linux --port 3001 --replSet saboteurRS >> /dev/zero &
+#Esperamos 5 segundos
+sleep 5
+#Instanciar replSet
+mongo localhost:3001/admin --eval "rs.initiate()"
+sleep 5
+#Creamos los usuarios de la BD \ es para escapar los caracteres
+#mongo localhost:3001/admin --eval "db.createUser({user:\"admin\",pwd:\"admin\",roles:[{role:\"root\",db:\"admin\"}]});"
+#mongo localhost:3001/admin --eval "db.createUser({user:\"saboteurApp\",pwd:\"3,14016pi\",roles:[{role:\"dbOwner\",db:\"saboteurDB\"}]});"
+mongo localhost:3001/admin < initUsersBD.js
+#Cerrar correctamente el servidor
+mongo localhost:3001/admin --eval "db.shutdownServer();"
+#killall -9 mongod
