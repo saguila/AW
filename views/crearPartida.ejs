@@ -1,0 +1,17 @@
+<%- include("cabecera") %>
+<div id="container">
+  <p id="saludo"><strong> |&#160;Nueva partida</strong></p>
+  <form id="formulario" action="/crearPartida" method="POST">
+    <label>Introduce los datos se la partida:</label>
+    <fieldset>
+       <label>Nombre:</label>
+        <input id="campo1" name="nombrePartida" type="text" /><br>
+        <label>Numero de jugadores:</label>
+        <input type="number" name="numJugadores" min="3" max="7" />	<br>
+        <input id="campo7" name="enviar" type="submit" value="Crear partida" />
+    </fieldset>
+  </form>
+  <a href="/">Volver a la página del usuario</a>
+</div>
+</body>
+</html>

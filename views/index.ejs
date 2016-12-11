@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-	<head>
-		<meta charset="utf-8"/>
-		<title>Saboteur</title>
-		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
-		<script src="/javascripts/jquery-3.1.1.min.js" language="javascript" type="text/javascript"></script>
-		<script src="/javascripts/form.js" language="javascript" type="text/javascript"></script>
-	</head>
-	<body id="all">
 	<%- include("cabecera") %>
 		<div id="container">
+            <% if(usuario){ %>
+			<p>Hay login</p>
+            <% } else{ %>
 			<p id="saludo"><strong> |&#160;Bienvenido!</strong></p>
 			<h4 id="texto">Puedes identificarte o crear una nueva cuenta de usuario.</h4>
+            <% } %>
 		</div>
 	</body>
 </html>

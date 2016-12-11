@@ -2,31 +2,28 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8"/>
-		<title>Saboteur</title>
+		<title>★Saboteur★ Logearse</title>
 		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
 		<script src="/javascripts/jquery-3.1.1.min.js" language="javascript" type="text/javascript"></script>
 		<script src="/javascripts/form.js" language="javascript" type="text/javascript"></script>
 	</head>
 	<body id="all">
-		<a href="index.html"><img src="/images/logo.png"></a>
-		<div id="encabezado">
-		
-		</div>
+		<a href="/"><img src="/images/Logo.png"></a>
 		<div id="menu">
 			 <ul>
-				  <li><a href="login.html">LOGIN</a></li>
-				  <li><a href="formulario.html">NUEVO USUARIO</a></li>
-			</ul> 
+				  <li><a href="">LOGIN</a></li>
+				  <li><a href="/register">NUEVO USUARIO</a></li>
+			</ul>
 		</div>
 		<div id="container">
 			<p id="saludo"><strong> |&#160;Ingreso en el sistema</strong></p>
-			<form id="formulario" action="enviado.php" method="post">
+			<form id="formulario" action="/login" method="POST">
 				<fieldset>
-					<label>Nombre de usuario:<class="as">*</></label>
-						<input id="campo1" name="nombre" type="text" /><br>
-					<label>Contraseña:<class="as">*</></label>
+					<label>Nombre de usuario:<class="as">*</class></label>
+						<input id="campo1" name="nick" type="text" /><br>
+					<label>Contraseña:<class="as">*</class></label>
 						<input id="campo2" name="password" type="password" />	<br>
-						<input id="campo7" name="enviar" type="submit" value="Crear cuenta de usuario" />
+						<input id="campo7" name="enviar" type="submit" value="Logearse" />
 				</fieldset>
 			</form>
 		</div>

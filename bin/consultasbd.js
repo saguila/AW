@@ -4,21 +4,6 @@ var mongoClient = require('mongodb').MongoClient; // https://mongodb.github.io/n
 
 
 module.exports = {
-
-mongooseClient : function(f) {
-    var mongoose = require('mongoose');
-    mongoose.connect(URL_DB,{"server":{"socketOptions":{"KeepAlive":1}}});
-    mongoose.connection.on('connected',function(err){
-        if(err){
-            console.log('error,no conectado');
-        }
-        else {
-            console.log('connected');
-        }
-    });
-    f(mongoose);
-}
-,
 // Testeado Ok
 getAllArray : function(collectionName,func){
 mongoClient.connect(URL_DB, function(err, db) {

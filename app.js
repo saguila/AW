@@ -4,20 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var multer = require('multer');
-//var multerFactory = multer({ dest: "uploads"});
 var sesion = require('./bin/sesiones'); // Clase creada para el manejo de sesiones.
 var index = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 var consultas = require('./bin/consultasbd');
-/*consultas.getAllArray('test',function(err,result){
+/*
+consultas.getAllArray('test',function(err,result){
   console.log(result);
 });*/
-
-consultas.mongooseClient(function(){
-
-});
+/**/
 /*consultas.update('test',{name : "prueba"},{name:"SIUU!"},true,function(err,result) {
 console.log(result);
 });/*
@@ -40,12 +36,18 @@ var URL_DB = 'mongodb://saboteurApp:3,14016pi@localhost:3001/saboteurDB';
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(sesion); //añadimos el midleware para la gestion de sesiones.
 
+app.use(function(req, res, next) {
+    res.locals.usuario = req.session.usuario;
+    next();
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 app.get('/mierda',function(req,res){
 res.cookie("x",1, { maxAge: 86400000 } );
 res.render(index);

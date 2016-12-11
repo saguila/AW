@@ -2,7 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8"/>
-		<title>Saboteur</title>
+		<title>★Saboteur★ Nuevo Usuari@</title>
 		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
 		<link href="/stylesheets/regform.css" rel="stylesheet" type="text/css"/>
 		<script src="/javascripts/form.js" language="javascript" type="text/javascript"></script>
@@ -14,14 +14,19 @@
 		<!-- http://api.jqueryui.com -->
 	</head>
 	<body id="all">
-		<%- include("cabecera") %>
+	<a href="/"><img src="/images/Logo.png"></a>
+	<div id="menu">
+		<ul>
+			<li><a href="/login">LOGIN</a></li>
+			<li><a href="">NUEVO USUARIO</a></li>
+		</ul>
+	</div>
 		<div id="container">
-			<p id="saludo"><strong> |&#160;Nuevo Usuario</strong></p>
-			<p id="texto">Introduce tus datos de usuario.Los campos marcos con asterisco(*)son obligatorios;</p>
+			<p id="saludo"><strong>|&#160;Nuevo Usuario</strong></p>
 			<div class="contenedor-formulario">
 			  <div class="wrap">
-				<form action="/register" class="formulario" name="registro" method="POST">
-				  
+				<form action="/register" class="formulario" name="registro" enctype="multipart/form-data" method="POST">
+
 					<div class="input-group">
 					  <input type="text" id="nick" name="nick">
 						<label class="label" for="nick">Nick:</label>
@@ -29,11 +34,11 @@
 					<div class="input-group">
 						<input type="text" id="nombre" name="nombre">
 							<label class="label" for="nombre">Nombre Completo:</label>
-					</div>					
+					</div>
 					<div class="input-group radio">
-						<input type="radio" name="sexo" id="hombre" value="Hombre">
+						<input type="radio" name="sexo" id="hombre" value="H">
 							<label for="hombre">Hombre</label>
-						<input type="radio" name="sexo" id="mujer" value="Mujer">
+						<input type="radio" name="sexo" id="mujer" value="M">
 							<label for="mujer">Mujer</label>
 					</div>
 					<div class="input-group">
@@ -46,20 +51,17 @@
 					</div>
 					<div class="input-group">
 						<label>Foto:</label>
-							<input id="foto" name="foto" type="file" />	<br>
+							<input id="foto" name="foto" type="file">
+						<br>
 						<label>Fecha de nacimiento:</label>
 						<input type="date" id="datepicker" name="fNacimiento">
-					</div>		
+					</div>
 					<input type="submit" id="btn-submit" value="Enviar">
 				</form>
 			  </div>
 			</div>
 			<a href="/">Volver a la página principal</a>
-		</div>	
-	
-	</body>
-</html>
-	<body>
-		
+		</div>
+
 	</body>
 </html>

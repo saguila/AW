@@ -1,10 +1,35 @@
-		<a href="/"><img src="/images/logo.png"></a>
+		<!DOCTYPE html>
+		<html lang="es">
+		<head>
+		<meta charset="utf-8"/>
+		<title>Saboteur</title>
+		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
+		</head>
+		<body id="all">
+		<a href="/"><img src="/images/Logo.png"></a>
 		<div id="encabezado">
+            <% if(usuario){ %>
+            <% if (usuario.foto !== '') { %>
+				<tr>
+				<td>Foto:</td>
+				<td><img src="<%= usuario.foto %>"></td> </tr>
+            <% } %>
+			<p><%=usuario.nick%></p>
+            <% } else { %>
+			<p>No estas conectado</p>
+            <% } %>
 		</div>
+
 		<div id="menu">
 			 <ul>
+                 <% if(usuario){ %>
+				 <li><a href="/logout">DESCONECTAR</a></li>
+				 <li><a href="/nuevaPartida">UNIRSE A PARTIDA</a></li>
+				 <li><a href="/crearPartida">CREAR PARTIDA</a></li>
+                 <% } else { %>
 				  <li><a href="/login">LOGIN</a></li>
 				  <li><a href="/register">NUEVO USUARIO</a></li>
-			</ul> 
+				 <% } %>
+			</ul>
 		</div>
 		</div>

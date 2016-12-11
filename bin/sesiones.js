@@ -10,6 +10,7 @@ module.exports = session({
 	saveUninitialized: false, // No guardar la sesion mientras que no se añada algo al objecto session.
 	resave: false, // No guardar la sesion a  menos que se modifique.
     secret:'prueba',
+    unset: 'destroy', // Si session=null se destruye de la BD.
     cookie: {
         maxAge: 24 * 60 * 60 * 1000
     },
