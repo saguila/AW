@@ -21,47 +21,66 @@
 			<li><a href="">NUEVO USUARIO</a></li>
 		</ul>
 	</div>
-		<div id="container">
-			<p id="saludo"><strong>|&#160;Nuevo Usuario</strong></p>
-			<div class="contenedor-formulario">
-			  <div class="wrap">
-				<form action="/register" class="formulario" name="registro" enctype="multipart/form-data" method="POST">
 
-					<div class="input-group">
-					  <input type="text" id="nick" name="nick">
-						<label class="label" for="nick">Nick:</label>
-					</div>
-					<div class="input-group">
-						<input type="text" id="nombre" name="nombre">
-							<label class="label" for="nombre">Nombre Completo:</label>
-					</div>
-					<div class="input-group radio">
-						<input type="radio" name="sexo" id="hombre" value="H">
-							<label for="hombre">Hombre</label>
-						<input type="radio" name="sexo" id="mujer" value="M">
+	<div id="container">
+		<p id="saludo"><strong> |&#160;Nuevo Usuario</strong></p>
+		<p id="texto">Introduce tus datos de usuario.Los campos marcos con asterisco(*)son obligatorios;</p>
+		<div class="reformed-form">
+			<form action="/register" class="formulario" name="registro" enctype="multipart/form-data" method="POST">
+				<dl>
+					<dt>
+						<label for="nick">Nombre de usuario:</label>
+					</dt>
+					<dd><input id="nick" name="nick" type="text" /></dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="pass">Contraseña:</label>
+					</dt>
+						<dd><input id="pass" name="pass" type="password" /></dd>
+				</dl>
+				<dl>
+				<dt>
+					<label for="pass2">Confirmar contraseña:</label>
+				</dt>
+					<dd><input id="pass2" name="pass2" type="password" /></dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="name">Nombre Completo:</label>
+					</dt>
+					<dd><input type="text" id="nombre" name="nombre" size="40"/></dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="sex">Sexo:</label>
+					</dt>
+					<dd>
+							 <input type="radio" name="sexo" id="varon" value="H">
+							<label for="varon">Varón</label>
+							<input type="radio" name="sexo" id="mujer" value="M">
 							<label for="mujer">Mujer</label>
-					</div>
-					<div class="input-group">
-						<input type="password" id="pass" name="pass">
-							<label class="label" for="pass">Contraseña:</label>
-					</div>
-					<div class="input-group">
-						<input type="password" id="pass2" name="pass2">
-							<label class="label" for="pass2">Repetir Contraseña:</label>
-					</div>
-					<div class="input-group">
-						<label>Foto:</label>
-							<input id="foto" name="foto" type="file">
-						<br>
-						<label>Fecha de nacimiento:</label>
-						<input type="date" id="datepicker" name="fNacimiento">
-					</div>
-					<input type="submit" id="btn-submit" value="Enviar">
-				</form>
-			  </div>
-			</div>
-			<a href="/">Volver a la página principal</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label for="foto">Foto: </label>
+					</dt>
+					<dd><input id="foto" name="foto" type="file" /></dd>
+				</dl>
+									<dl>
+				<dt>
+					<label> Fecha de nacimiento:</label>
+				</dt>
+					<dd><input type="date" id="datepicker" name="fNacimiento"></dd>
+				</dl>
+				<div id="submit_buttons">
+					<button type="reset">Reset</button>
+					<button type="submit">Enviar</button>
+				</div>
+			</form>
 		</div>
-
+	<br><a href="/">Volver a la página principal</a>
+	</div>
 	</body>
 </html>

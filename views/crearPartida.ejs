@@ -1,17 +1,27 @@
 <%- include("cabecera") %>
 <div id="container">
-  <p id="saludo"><strong> |&#160;Nueva partida</strong></p>
-  <form id="formulario" action="/crearPartida" method="POST">
-    <label>Introduce los datos se la partida:</label>
-    <fieldset>
-       <label>Nombre:</label>
-        <input id="campo1" name="nombrePartida" type="text" /><br>
-        <label>Numero de jugadores:</label>
-        <input type="number" name="numJugadores" min="3" max="7" />	<br>
-        <input id="campo7" name="enviar" type="submit" value="Crear partida" />
-    </fieldset>
-  </form>
-  <a href="/">Volver a la página del usuario</a>
+  <p id="saludo"><strong> |Nueva Partida!</strong></p>
+  <h5 id="texto2"><em>Introduce los datos de la partida:</em></h5>
+  <div class="reformed-form">
+    <form id="formulario" action="/crearPartida" method="POST">
+      <dl>
+        <dt>
+          <label for="nomb">Nombre:</label>
+        </dt>
+        <dd><input id="nomb"  name="nombrePartida" type="text" /></dd>
+      </dl>
+      <dl>
+        <dt>
+          <label for="players">Número máximo de jugadores (entre 3 y 7)::</label>
+        </dt>
+        <dd><input id="players" name="numJugadores" type="number" size="1" min="3" max="7"/></dd>
+      </dl>
+      <div id="submit_buttons">
+        <button type="submit">Crear Partida</button>
+      </div>
+    </form>
+  </div>
+  <br><a href="/">Volver a la página de usuario</a>
 </div>
 </body>
 </html>

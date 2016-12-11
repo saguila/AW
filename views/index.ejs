@@ -1,7 +1,49 @@
 	<%- include("cabecera") %>
 		<div id="container">
             <% if(usuario){ %>
-			<p>Hay login</p>
+							<div id="container">
+							<% if(usuario.sexo == 'H'){ %>
+								<p id="saludo"><strong> |&#160;Bienvenido , <%=usuario.nombre%> </strong></p>
+								<% } else { %>
+								<p id="saludo"><strong> |&#160;Bienvenida , <%=usuario.nombre%> </strong></p>
+									<% } %>
+								<p id="men"><strong> |&#160;Partidas abiertas</strong></p>
+								<h5 id="texto2"><em>Las siguientes partidas han sido creadas por ti, pero aún están a la espera de recibir mas jugadores</em></h5>
+									<div id="tablas">
+											<table id="bordes">
+												<tr>
+													<td id="encabe">Nombre</td ><td id="encabe">Fecha</td><td id="encabe">Número de Jugadores</td>
+												</tr>
+												<tr>
+													<td id="cel"></td><td id="cel"></td><td id="cel"></td><td id="cel">Cerrar Partida</td>
+												</tr>
+											</table>
+									</div>
+								<p id="men"><strong> |&#160;Partidas activas</strong></p>
+								<h5 id="texto2"><em>Haga click en el título de la partida para ver su estado actual.<br>
+													Se marcan resaltadas las partidas en las que es su turno.</em></h5>
+									<div id="tablas">
+											<table id="bordes">
+												<tr>
+													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">Fecha</td><td id="encabe">Turno</td>
+												</tr>
+												<tr>
+													<td id="cel"></td><td id="cel"></td><td id="cel"></td><td id="cel"></td>
+												</tr>
+											</table>
+									</div>
+								<p id="men"><strong> |&#160;Partidas terminadas</strong></p>
+									<div id="tablas">
+											<table id="bordes">
+												<tr>
+													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">¿Has ganado?</td>
+												</tr>
+												<tr>
+													<td id="cel"></td><td id="cel"></td><td id="cel"></td><t
+												</tr>
+											</table>
+									</div>
+							</div>
             <% } else{ %>
 			<p id="saludo"><strong> |&#160;Bienvenido!</strong></p>
 			<h4 id="texto">Puedes identificarte o crear una nueva cuenta de usuario.</h4>

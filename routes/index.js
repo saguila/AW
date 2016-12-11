@@ -105,7 +105,7 @@ router.post('/register',multerFact.single("foto"),function(req, res, next) {
 					require('../bin/simpleError').muestraError(res,'Nick de usuario existente','/register',409);
         }
         else{
-					require('../bin/simpleError').muestraError(res,'Se ha creado el usuario correctamente','/register',200);
+					require('../bin/simpleError').muestraError(res,'Se ha creado el usuario correctamente','/',200);
         }
     });
 	}
@@ -124,6 +124,38 @@ router.post('/register',multerFact.single("foto"),function(req, res, next) {
 	else{
 				require('../bin/simpleError').muestraError(res,'Alguno de los campos esta vacio,reviselo','/register',404);
 	}
+});
+
+router.get('/unirsePartida', function(req, res, next) {
+	if (!req.session.usuario) {
+		res.status(403);
+		res.render('index');
+	}
+		res.render('unirsePartida');
+});
+
+router.post('/unirsePartida', function(req, res, next) {
+	if (!req.session.usuario) {
+		res.statwus(403);
+		res.render('index');
+	}
+		res.redirect('/');
+});
+
+router.get('/partida:id', function(req, res, next) {
+	if (!req.session.usuario) {
+		res.status(403);
+		res.render('index');
+	}
+		res.render('partida');
+});
+
+router.get('/partida:id', function(req, res, next) {
+	if (!req.session.usuario) {
+		res.status(403);
+		res.render('index');
+	}
+		res.render('partida');
 });
 
 router.get('/crearPartida', function(req, res, next) {
