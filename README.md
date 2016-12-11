@@ -1,10 +1,8 @@
 #Instrucciones de uso
 ---
 1. Colocar el terminal apuntando al directorio raíz del proyecto clonado de este repositorio.
-2. Para iniciar mongodb con autentificacion(seguridad basica) —> mongod --smallfiles --nojournal --dbpath ./db-linux --port 3001 --auth --replSet saboteurRS
- * Al primer arranque se tiene que instanciar replSet(vease el apartado de mongo) replSet es necesario para Mongoose.
-3. Para ejecutar la App escribir en el terminal -> **npm start** ó **DEBUG=myapp:* npm start**. En Windows set DEBUG=myapp:* & npm start.
-  * En linux tambien se puede ejecutar directamente el script start --> $ **sh start**
+2. $ **sh createDB** y esperar un pequeño rato hasta que acabe,tiene que bajar los modulos y preparar y generar la BD
+3. $ **sh start** Para arrancar el servidor y la base de datos,para cerrar Cntrl + C
 
 #Algo de MongoDB
 ---
