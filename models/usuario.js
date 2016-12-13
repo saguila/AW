@@ -19,7 +19,7 @@ var esquemaUsuario = new Schema({
   sexo: { type: String,enum:['H','M'],required:true }, //Posibles valores que pueda tomar
   fechaNacimiento: { type : Date, required: true },
   rutaFoto: String,
-  partidasAbiertas: [{type:Schema.ObjectId,ref:'partida'}]
+  //partidasAbiertas: [{type:Schema.ObjectId,ref:'partida'}]
 });
 
 esquemaUsuario.methods.dameCamposPublicos = function(){

@@ -15,6 +15,7 @@ var Schema = mongoose.Schema;
 var esquemaPartidas = new Schema({
     creador: { type: String, required: true},
     nombre: String,
+    //fecha: { type : Date, default:Date.now()},
     jugadores: [{type:String,unique: true}],
     numJugadores: {type:Number,min:3,max:7},
     turnosRestantes: Number,
@@ -25,6 +26,10 @@ var esquemaPartidas = new Schema({
     estado: {type:String,enum:['Abierta','Activa','Finalizada']},
     ganadores: {type:String,enum:['Saboteador','Buscador']}
 });
+
+esquemaPartidas.methods.dameFecha = function(){
+  return this._id.getTimestamp();
+}
 
 esquemaPartidas.methods.dameCamposPublicos = function(){
     return {

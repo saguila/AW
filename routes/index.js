@@ -5,7 +5,40 @@ var path = require('path');
 var multerFact = multer({ dest: 'uploads' });
 
 router.get('/', function(req, res, next) {
-	res.render('index');
+	if (!req.session.usuario) {
+        res.render('index');
+    }
+	else{
+		/*
+		console.log(req.session.usuario.nick);
+        var partidasAbiertas,
+			partidasActivas,
+			partidasFinalizadas;
+
+        var _partida = require('../models/partida');
+
+        _partida.find({estado:'Abierta'},{jugadores:{$in:req.session.usuario.nick}},function(err,partida){
+            if(err){
+            	res.redirect('/');
+            }
+            else{
+                partidasAbiertas = partida;
+			}
+        });
+console.log(partidasAbiertas);
+        /*_partida.find({estado:'Activa'}).where('jugadores').in(req.session.usuario.nick).exec(function(err,partida){
+            if(err) res.redirect('/');
+            else partidasAbiertas = partida;
+        });
+
+        _partida.find({estado:'Finalizada'}).where('jugadores').in(req.session.usuario.nick).exec(function(err,partida){
+            if(err) res.redirect('/');
+            else partidasAbiertas = partida;
+        });*/
+		//console.log(partidasAbiertas);
+        res.render('index',{abiertas:[],activas:[],finalizadas:[]});
+		//res.render('index',{abiertas:partidasAbiertas,activas:partidasActivas,finalizadas:partidasFinalizadas})
+	}
 });
 
 
@@ -83,7 +116,7 @@ router.post('/register',multerFact.single("foto"),function(req, res, next) {
 		res.render('index');
 	}
 				//Validador
-				if(req.body.nick.length != 0 || req.body.pass.length != 0 || req.body.pass2.length != 0 || req.body.sexo.length != 0 || req.body.fNacimiento.length != 0){
+				if(req.body.nick.length != 0 && req.body.pass.length != 0 && req.body.pass2.length != 0 && req.body.sexo.length != 0 && req.body.fNacimiento.length != 0){
 				if(req.body.pass == req.body.pass2){
 				if(req.body.sexo == 'H' || req.body.sexo == 'M'){
 				if(/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(req.body.fNacimiento)){ //Comprobar el formato de la fecha
@@ -93,7 +126,7 @@ router.post('/register',multerFact.single("foto"),function(req, res, next) {
 							}
     var esquemaUsuario = require('../models/usuario');
     var nuevoUsuario = new esquemaUsuario({
-        name: req.body.nombre,
+        nombre: req.body.nombre,
         nick: req.body.nick,
         password: req.body.pass,
         sexo: req.body.sexo,
@@ -131,12 +164,22 @@ router.get('/unirsePartida', function(req, res, next) {
 		res.status(403);
 		res.render('index');
 	}
-		res.render('unirsePartida');
+	var _partida = require('../models/partida');
+
+	_partida.find({estado:'Abierta'}).where('jugadores').ne(req.session.usuario.nick).exec(function(err,partida){
+		if(err){
+				res.render('unirsePartida');
+		}
+		else{
+				res.render('unirsePartida',{partidas:partida});
+		}
+	});
+
 });
 
 router.post('/unirsePartida', function(req, res, next) {
 	if (!req.session.usuario) {
-		res.statwus(403);
+		res.status(403);
 		res.render('index');
 	}
 		res.redirect('/');
@@ -144,11 +187,24 @@ router.post('/unirsePartida', function(req, res, next) {
 
 router.get('/partida:id', function(req, res, next) {
 	if (!req.session.usuario) {
-		res.status(403);
-		res.render('index');
+        res.status(403);
+        res.render('index');
+    }
+    else{
+	var id = req.params.id;
+	if(id.length > 0){
+	var _partida = require('../models/partida');
+	_partida.find({_id:id},function(err,partida){
+		if(!partida || err){
+				require('../bin/simpleError').muestraError(res,'Partida no existente','/',404);
+		}
+		else{
+				res.render('partida',{partidas:partida});
+		}
+		});
 	}
-		res.render('partida');
-});
+		res.redirect('/');
+}});
 
 router.get('/partida:id', function(req, res, next) {
 	if (!req.session.usuario) {

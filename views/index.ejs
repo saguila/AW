@@ -14,9 +14,13 @@
 												<tr>
 													<td id="encabe">Nombre</td ><td id="encabe">Fecha</td><td id="encabe">Número de Jugadores</td>
 												</tr>
+                                                <%if(typeof abiertas != 'undefined'){ %>
+												<% abiertas.forEach(function(partida){ %>
 												<tr>
-													<td id="cel"></td><td id="cel"></td><td id="cel"></td><td id="cel">Cerrar Partida</td>
+													<td id="cel"><%=partida.nombre %></td><td id="cel"><%=partida.dameFecha() %></td><td id="cel"></td><td id="cel">Cerrar Partida</td>
 												</tr>
+                                                <%});%>
+                                                <% } %>
 											</table>
 									</div>
 								<p id="men"><strong> |&#160;Partidas activas</strong></p>
@@ -27,9 +31,13 @@
 												<tr>
 													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">Fecha</td><td id="encabe">Turno</td>
 												</tr>
+												<% if(typeof activas != 'undefined'){ %>
+												<% activas.forEach(function(partida){ %>
 												<tr>
-													<td id="cel"></td><td id="cel"></td><td id="cel"></td><td id="cel"></td>
+													<td id="cel"></td><%=partida.nombre %><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
 												</tr>
+                                                <%});%>
+                                                <% } %>
 											</table>
 									</div>
 								<p id="men"><strong> |&#160;Partidas terminadas</strong></p>
@@ -38,9 +46,13 @@
 												<tr>
 													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">¿Has ganado?</td>
 												</tr>
+                                                <% if(typeof finalizadas != 'undefined'){ %>
+												<% finalizadas.forEach(function(partida){ %>
 												<tr>
-													<td id="cel"></td><td id="cel"></td><td id="cel"></td><t
+													<td id="cel"><%=partida.nombre%></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
 												</tr>
+                                                <%});%>
+												<% } %>
 											</table>
 									</div>
 							</div>

@@ -9,7 +9,7 @@
 		<a href="/"><img src="/images/Logo.png"></a>
 		<div id="encabezado">
             <% if(usuario){ %>
-            <% if (usuario.foto !== '') { %>
+            <% if (usuario.foto != '') { %>
 				<tr>
 				<td>Foto:</td>
 				<td><img src="<%= usuario.foto %>"></td> </tr>
