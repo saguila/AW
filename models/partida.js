@@ -31,6 +31,10 @@ esquemaPartidas.methods.dameFecha = function(){
   return this._id.getTimestamp();
 }
 
+esquemaPartidas.methods.dameNumJugadores = function () {
+
+}
+
 esquemaPartidas.methods.dameCamposPublicos = function(){
     return {
         id:this._id,

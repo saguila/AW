@@ -8,42 +8,16 @@ router.get('/', function(req, res, next) {
 	if (!req.session.usuario) {
         res.render('index');
     }
-	else{
-		/*
-		console.log(req.session.usuario.nick);
-        var partidasAbiertas,
-			partidasActivas,
-			partidasFinalizadas;
-
-        var _partida = require('../models/partida');
-
-        _partida.find({estado:'Abierta'},{jugadores:{$in:req.session.usuario.nick}},function(err,partida){
-            if(err){
-            	res.redirect('/');
-            }
-            else{
-                partidasAbiertas = partida;
-			}
+    //Consulta nativa --> db.partidas.find({estado:"Abierta",jugadores: {$in: ["aa"]}})
+    else{
+        require('../bin/mongooseResuts').buscarTodasPartidasUsuario(req.session.usuario.nick,function (err,result) {
+			res.render('index',{abiertas:result.abiertas,activas:result.activas,finalizadas:result.finalizadas});
         });
-console.log(partidasAbiertas);
-        /*_partida.find({estado:'Activa'}).where('jugadores').in(req.session.usuario.nick).exec(function(err,partida){
-            if(err) res.redirect('/');
-            else partidasAbiertas = partida;
-        });
-
-        _partida.find({estado:'Finalizada'}).where('jugadores').in(req.session.usuario.nick).exec(function(err,partida){
-            if(err) res.redirect('/');
-            else partidasAbiertas = partida;
-        });*/
-		//console.log(partidasAbiertas);
-        res.render('index',{abiertas:[],activas:[],finalizadas:[]});
-		//res.render('index',{abiertas:partidasAbiertas,activas:partidasActivas,finalizadas:partidasFinalizadas})
 	}
 });
 
 
 router.get('/login', function(req, res, next) {
-//	if (req.session.usuario) res.render('index');
 if (req.session.usuario) {
 	res.status(403);
 	res.render('index');
@@ -58,10 +32,9 @@ router.post('/login', function(req, res, next) {
 		res.render('index');
 	}
 	//Comprobamos que los campos no estan vacios.
-	if(req.body.nick.length == 0  || req.body.password.length == 0){
+	if(req.body.nick.length == 0  && req.body.password.length == 0){
 		require('../bin/simpleError').muestraError(res,'Alguno de los campos estan vacios,reviselo','/login',400);
 	}
-
 	else{
 	var _usuario = require('../models/usuario');
 	var formNick = req.body.nick;
@@ -74,10 +47,10 @@ router.post('/login', function(req, res, next) {
         if(usuario.validaPassword(formPass)){
             var datos = usuario.dameCamposPublicos();
             req.session.usuario = datos;
-										require('../bin/simpleError').muestraError(res,usuario.nick + ' se ha logeado correctamente','/',200);
+			require('../bin/simpleError').muestraError(res,usuario.nick + ' se ha logeado correctamente','/',200);
         }
         else{
-					require('../bin/simpleError').muestraError(res,'Error al logearse,asegurate de que los credenciales estan bien escritos','/login',401);
+			require('../bin/simpleError').muestraError(res,'Error al logearse,asegurate de que los credenciales estan bien escritos','/login',401);
         }
     }
     });
@@ -230,7 +203,7 @@ router.post('/crearPartida', function(req, res, next) {
 
 	//Validaciones
 
-	if(req.body.nombrePartida.length !== 0 || req.body.numJugadores.length !==0){
+	if(req.body.nombrePartida.length != 0 && req.body.numJugadores.length != 0){
 		if(Number.isInteger(parseInt(req.body.numJugadores)) && (req.body.numJugadores > 2 && req.body.numJugadores < 8)){ //Para que no hagan la trampa de poner decimales.
 			var nTurnos = 0;
 			if(req.body.numJugadores === 3){
