@@ -16,9 +16,15 @@
 												</tr>
                                                 <%if(typeof abiertas != 'undefined'){ %>
 												<% abiertas.forEach(function(partida){ %>
+												<form action="/eliminarPartida" method="POST">
 												<tr>
-													<td id="cel"><%=partida.nombre %></td><td id="cel"><%=partida.dameFecha() %></td><td id="cel"></td><td id="cel">Cerrar Partida</td>
+													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.dameFecha() %></td><td id="cel"><%=partida.dameNumJugadores()%></td>
+													<% if(partida.esCreador(usuario.nick)){ %>
+													<input type="hidden" name="id" value=<%=partida._id%>>
+													<td><input name="enviar" type="submit" value="eliminar partida"/></td>
+                                                    <% } %>
 												</tr>
+												</form>
                                                 <%});%>
                                                 <% } %>
 											</table>
@@ -34,7 +40,7 @@
 												<% if(typeof activas != 'undefined'){ %>
 												<% activas.forEach(function(partida){ %>
 												<tr>
-													<td id="cel"></td><%=partida.nombre %><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
+													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
 												</tr>
                                                 <%});%>
                                                 <% } %>
@@ -49,7 +55,7 @@
                                                 <% if(typeof finalizadas != 'undefined'){ %>
 												<% finalizadas.forEach(function(partida){ %>
 												<tr>
-													<td id="cel"><%=partida.nombre%></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
+													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
 												</tr>
                                                 <%});%>
 												<% } %>

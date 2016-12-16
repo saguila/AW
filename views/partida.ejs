@@ -2,10 +2,10 @@
 <div id="container">
   <p id="saludo"><strong> |Partida: </strong></p>
   <h5 id="texto2"><em>
-  Creada por:<br>
-  Jugadores:<br>
-  Turno de:<br>
-  Turnos restantes:</em></h5>
+  Creada por: <%=partida.creador%><br>
+  Jugadores: <%=partida.jugadores%><br>
+  Turno de: <%=partida.turnoPara%><br>
+  Turnos restantes: <%=partida.turnosRestantes%></em></h5>
 
 <p id="saludo"><strong> |Tablero: </strong></p>
 
@@ -79,6 +79,15 @@
 
 
   <p id="saludo"><strong> |Comentarios: </strong></p>
+  <% partida.comentarios.forEach(function(comentario){ %>
+  <div>
+    <p><%=comentario.mensaje%></p>
+  </div>
+  <% }); %>
+  <form method="POST" action="/nuevoComentario/<%=partida.id%>">
+  <textarea name="nuevoComentario" id="nuevoComentario"></textarea>
+  <input name="submit" value="Submit" class="submit-button" type="submit">
+  </form>
 </div>
 </body>
 </html>

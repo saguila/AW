@@ -9,9 +9,12 @@
             <td id="encabe">Nombre</td ><td id="encabe">Fecha</td><td id="encabe">Número de Jugadores</td><td id="encabe">Jugadores Apuntados</td>
           </tr>
           <% partidas.forEach(function (partida){ %>
+          <form method="POST" action="/unirsePartida/<%= partida._id %>">
           <tr>
-            <td id="cel"><%= partida.nombre %></td><td id="cel"><%= partida.dameFecha() %></td><td id="cel"><%= partida.numJugadores %></td><td id="cel"><%= partida.jugadores %></td><td id="cel">Unirse</td>
+            <td id="cel"><%= partida.nombre %></td><td id="cel"><%= partida.dameFecha() %></td><td id="cel"><%= partida.dameNumJugadores() %></td><td id="cel"><%= partida.jugadores %></td>
+            <td id="cel"><td><input name="enviar" type="submit" value="Unirse"/></td>
           </tr>
+          </form>
           <%});%>
         </table>
   </div>

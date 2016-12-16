@@ -150,22 +150,38 @@ router.get('/unirsePartida', function(req, res, next) {
 
 });
 
-router.post('/unirsePartida', function(req, res, next) {
+router.post('/unirsePartida/:id', function(req, res, next) {
 	if (!req.session.usuario) {
 		res.status(403);
 		res.render('index');
 	}
-		res.redirect('/');
+	else{
+        var _partida = require('../models/partida');
+        _partida.findByIdAndUpdate(req.params.id,{$push:{jugadores:req.session.usuario.nick}},{safe: true, upsert: true},
+        function(err, model) {
+            console.log(err);
+            res.redirect('/');
+        });
+       // _partida.update({_id:req.params.id},{$push:{jugadores:req.session.usuario.nick}},done);
+	}
 });
 
-router.get('/partida:id', function(req, res, next) {
+router.get('/partida/:id', function(req, res, next) {
 	if (!req.session.usuario) {
         res.status(403);
         res.render('index');
     }
     else{
-	var id = req.params.id;
-	if(id.length > 0){
+		require('../models/comentario');
+        require('../models/mano');
+		var _partida = require('../models/partida');
+		var id = req.params.id;
+
+			_partida.findById(id).populate('_comentarios').exec(function(err,result) {
+				console.log(result);
+                res.render('partida',{partida:result});
+			});
+		/*
 	var _partida = require('../models/partida');
 	_partida.find({_id:id},function(err,partida){
 		if(!partida || err){
@@ -174,17 +190,8 @@ router.get('/partida:id', function(req, res, next) {
 		else{
 				res.render('partida',{partidas:partida});
 		}
-		});
+		});*/
 	}
-		res.redirect('/');
-}});
-
-router.get('/partida:id', function(req, res, next) {
-	if (!req.session.usuario) {
-		res.status(403);
-		res.render('index');
-	}
-		res.render('partida');
 });
 
 router.get('/crearPartida', function(req, res, next) {
@@ -248,6 +255,54 @@ router.post('/crearPartida', function(req, res, next) {
 });
 
 
+router.post('/nuevoComentario/:partida/', function(req, res, next) {
+    if (!req.session.usuario) {
+        res.status(403);
+        res.render('index');
+    }
+    else {
+				var _partida = require('../models/partida');
+        var esquemaComentario = require('../models/comentario');
+        var nuevoComentario = new esquemaComentario({
+        	partida:id = req.params.id,
+			usuario:req.session.usuario.id,
+			mensaje:req.body.nuevoComentario
+		});
+        nuevoComentario.save(function(err,result){
+            if(err){
+                require('../bin/simpleError').muestraError(res,err,'/partida/'+ req.params.partida,409);
+            }
+            else{
+							_partida.findByIdAndUpdate(req.params.partida,{$push:{comentarios:result}},{safe: true, upsert: true},
+			        function(err, model) {
+			            require('../bin/simpleError').muestraError(res,'Comentario realizado!','/partida/'+ req.params.partida,200);
+			        });
+								//
+            }
+		});
+    }
+});
+
+
+router.post('/eliminarPartida', function(req, res, next) {
+    if (!req.session.usuario) {
+        res.status(403);
+        res.render('index');
+    }
+    else{
+        var _partida = require('../models/partida');
+        _partida.findOneAndRemove({_id:req.body.id,creador:req.session.usuario.nick},function(err,result){
+        	if(err){
+                require('../bin/simpleError').muestraError(res,'Error interno','/',500)
+            }
+        	if(result.length == 0){
+        		require('../bin/simpleError').muestraError(res,'Operación no permitida,estas intentando borrar una partida que no has creado tu','/',401);
+            }
+
+		});
+        res.redirect('/');
+    }
+});
 
 
 module.exports = router;

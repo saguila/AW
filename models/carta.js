@@ -10,14 +10,14 @@ var options = {
 var mongoose = require('mongoose');
 mongoose.connect(URL_DB,options);
 var Schema = mongoose.Schema;
-var esquemaComentario = new Schema({
-    partida: {type: Schema.ObjectId,ref:'partida'},
-    usuario: {type: Schema.ObjectId,ref:'usuario'},
-    mensaje: String
+var esquemaCarta = new Schema({
+    identificador: {type :Number,unique:true},
+    valores: {type: [Boolean],default:[false,false,false,false]},
+    foto: String
 });
 
 /* Usando el modelo creamos el comentario */
-var comentario = mongoose.model('comentario', esquemaComentario);
+var carta = mongoose.model('carta', esquemaCarta);
 
 /* Devolvemos el modelo para que pueda ser usado */
-module.exports = comentario;
+module.exports = carta;

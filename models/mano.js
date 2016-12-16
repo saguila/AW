@@ -18,7 +18,7 @@ var esquemaMano = new Schema({
 });
 
 /* Usando el modelo creamos el mano */
-var mano = mongoose.model('mano', esquemaComentario);
+var mano = mongoose.model('mano', esquemaMano);
 
 /* Devolvemos el modelo para que pueda ser mano */
 module.exports = mano;

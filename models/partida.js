@@ -31,8 +31,12 @@ esquemaPartidas.methods.dameFecha = function(){
   return this._id.getTimestamp();
 }
 
-esquemaPartidas.methods.dameNumJugadores = function () {
+esquemaPartidas.methods.esCreador = function(nick){
+    return this.creador == nick;
+}
 
+esquemaPartidas.methods.dameNumJugadores = function () {
+return '' + this.jugadores.length +'/'+ this.numJugadores;
 }
 
 esquemaPartidas.methods.dameCamposPublicos = function(){
