@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var comprobacion = require('../bin/comprobaciones');
+var dialog = require('../bin/simpleError').muestraMensaje;
+
 
 router.get('/crearPartida',comprobacion.autentificacionRequerida,function(req, res, next) {
 		res.render('crearPartida');
@@ -23,31 +25,53 @@ router.post('/crearPartida',comprobacion.autentificacionRequerida,function(req, 
 			});
 			nuevaPartida.save(function (err) {
 					if(err){
-						require('../bin/simpleError').muestraError(res,'Error de la BD','/crearPartida',409);
+						dialog(res,'Error de la BD','/crearPartida',409);
 					}
 					else{
-						require('../bin/simpleError').muestraError(res,'Se ha la partida correctamente','/',200);
+                        dialog(res,'Se ha la partida correctamente','/',200);
 					}
 			});
 		}
 		else{
-			require('../bin/simpleError').muestraError(res,'Numero de jugadores no valido','/crearPartida',404);
+			dialog(res,'Numero de jugadores no valido','/crearPartida',404);
 		}
 	}
 	else{
-		require('../bin/simpleError').muestraError(res,'Alguno de los campos esta vacio,reviselo','/crearPartida',404);
+		dialog(res,'Alguno de los campos esta vacio,reviselo','/crearPartida',404);
 	}
 
 });
 
+router.post('/cerrarPartida',comprobacion.autentificacionRequerida, function(req, res, next) {
+    var _partida = require('../models/partida');
+    _partida.findById(req.body.id,function (err,partida) {
+		if(partida){
+			if(partida.numeroJugadores() >= 1){
+				partida.update({_id:req.body.id},{$set:{estado:'Activa'}},function (err,result) {
+					if(result){
+                        dialog(res,partida.name + ' Pasada a Activa','/',200);
+					}
+					else{
+                        dialog(res,'Error en la BD','/',400);
+					}
+                });
+			}
+			else{
+               dialog(res,'No se puede cerrar la partida numJugador < 3','/',404);
+			}
+		}
+    });
+    res.redirect('/');
+});
+
 router.post('/eliminarPartida',comprobacion.autentificacionRequerida, function(req, res, next) {
         var _partida = require('../models/partida');
-        _partida.findOneAndRemove({_id:req.body.id,creador:req.session.usuario.nick},function(err,result){
+        _partida.findByIdAndUpdate(req.body.id,{creador:req.session.usuario.nick},function(err,result){
         	if(err){
-                require('../bin/simpleError').muestraError(res,'Error interno','/',500)
+                dialog(res,'Error interno','/',500)
             }
         	if(result.length == 0){
-        		require('../bin/simpleError').muestraError(res,'Operación no permitida,estas intentando borrar una partida que no has creado tu','/',401);
+        		dialog(res,'Operación no permitida,estas intentando borrar una partida que no has creado tu','/',401);
             }
 
 		});
@@ -68,7 +92,7 @@ router.get('/unirsePartida',comprobacion.autentificacionRequerida, function(req,
 
 router.post('/unirsePartida/:id',comprobacion.autentificacionRequerida, function(req, res, next) {
         var _partida = require('../models/partida');
-        _partida.findByIdAndUpdate(req.params.id,{$push:{jugadores:req.session.usuario.nick}},{safe: true, upsert: true},
+        _partida.findByIdAndUpdate(req.params.id,{$push:{jugadores:req.session.usuario.nick}},{safe: true, upsert: false},
         function(err, model) {
             console.log(err);
             res.redirect('/');
@@ -98,12 +122,12 @@ router.post('/nuevoComentario/:partida/',comprobacion.autentificacionRequerida, 
 		});
         nuevoComentario.save(function(err,result){
             if(err){
-                require('../bin/simpleError').muestraError(res,err,'/partida/'+ req.params.partida,409);
+                dialog(res,err,'/partida/'+ req.params.partida,409);
             }
             else{
 							_partida.findByIdAndUpdate(req.params.partida,{$push:{comentarios:result}},{safe: true, upsert: true},
 			        function(err, model) {
-			            require('../bin/simpleError').muestraError(res,'Comentario realizado!','/partida/'+ req.params.partida,200);
+			            dialog(res,'Comentario realizado!','/partida/'+ req.params.partida,200);
 			        });
 
             }

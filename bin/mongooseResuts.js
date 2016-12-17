@@ -1,7 +1,3 @@
-/**
- * Created by saguila on 14/12/16.
- */
-
 var _partida = require('../models/partida');
 
 function buscarPartidasUsuario(usuario,estado,callback,array){
@@ -11,6 +7,22 @@ function buscarPartidasUsuario(usuario,estado,callback,array){
             callback(null,array.push(result));
         }
     });
+}
+
+function buscarPartidasUsuario2(usuario,estado,callback){
+    _partida.find({estado:estado}).where('jugadores').in(usuario).exec(function(err,result){
+        if(err) callback(err,null);
+        else{
+            callback(null,result);
+        }
+    });
+}
+
+function partidasCreadasUsuario(usuario,callback){
+_partida.find({estado:'Abierta',creador:usuario},function(err,result){
+  if(err) callback(err,null);
+  else callback(null,result);
+});
 }
 
 module.exports = {
@@ -34,5 +46,18 @@ buscarTodasPartidasUsuario : function(stringUser,callback) {
             }, partidas);
         }, partidas);
     }, partidas);
-}
+},
+    consultaIndex : function(stringUser,callback){
+    var arrayUser = [];
+    arrayResult = [];
+    arrayUser.push(stringUser);
+    partidasCreadasUsuario(stringUser,function (err,result1) {
+        buscarPartidasUsuario2(arrayUser,'Activa',function(err,result2){
+            buscarPartidasUsuario2(arrayUser,'Finalizada',function(err,result3){
+                callback(null,{abiertas: result1, activas: result2, finalizadas: result3});
+            });
+        });
+    });
+
+    }
 }

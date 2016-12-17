@@ -2,7 +2,6 @@
 var URL_DB = 'mongodb://saboteurApp:3,14016pi@localhost:3001/saboteurDB';
 var mongoClient = require('mongodb').MongoClient; // https://mongodb.github.io/node-mongodb-native/index.html
 
-
 module.exports = {
 // Testeado Ok
 getAllArray : function(collectionName,func){

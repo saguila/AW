@@ -7,12 +7,12 @@
 var app = require('../app');
 var debug = require('debug')('saboteur:server');
 var http = require('http');
-
+var conf = require('../config');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || require('../config').portApp);
+var port = normalizePort(process.env.PORT || conf.portApp);
 app.set('port', port);
 
 /**

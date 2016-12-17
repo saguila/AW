@@ -12,7 +12,8 @@ var esquemaPartidas = new Schema({
     numJugadores: {type:Number,min:3,max:7},
     turnosRestantes: Number,
     turnoPara: String,
-    tablero:{type:[Number],min:0,max:22,default:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+    localizacionOro: {type:Number,min:0,max:48},
+    tablero:{type:[Number],min:0,max:22,default:[0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,0,0,0,0,0,0,21,0,0,0,0,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,0,0,0,0,0,0]},
     manos : [{type:Schema.ObjectId,ref:'mano'}],
     comentarios:[{type:Schema.ObjectId,ref:'comentario'}],
     estado: {type:String,enum:['Abierta','Activa','Finalizada']},
@@ -26,6 +27,12 @@ esquemaPartidas.methods.dameFecha = function(){
 esquemaPartidas.methods.esCreador = function(nick){
     return this.creador == nick;
 }
+
+
+ esquemaPartidas.methods.numeroJugadores = function () {
+ return this.jugadores.length;
+ }
+
 
 esquemaPartidas.methods.dameNumJugadores = function () {
 return '' + this.jugadores.length +'/'+ this.numJugadores;

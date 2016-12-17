@@ -1,71 +1,95 @@
-	<%- include("cabecera") %>
-		<div id="container">
-            <% if(usuario){ %>
-							<div id="container">
-							<% if(usuario.sexo == 'H'){ %>
-								<p id="saludo"><strong> |&#160;Bienvenido , <%=usuario.nombre%> </strong></p>
-								<% } else { %>
-								<p id="saludo"><strong> |&#160;Bienvenida , <%=usuario.nombre%> </strong></p>
-									<% } %>
-								<p id="men"><strong> |&#160;Partidas abiertas</strong></p>
-								<h5 id="texto2"><em>Las siguientes partidas han sido creadas por ti, pero aún están a la espera de recibir mas jugadores</em></h5>
-									<div id="tablas">
-											<table id="bordes">
-												<tr>
-													<td id="encabe">Nombre</td ><td id="encabe">Fecha</td><td id="encabe">Número de Jugadores</td>
-												</tr>
-                                                <%if(typeof abiertas != 'undefined'){ %>
-												<% abiertas.forEach(function(partida){ %>
-												<form action="/eliminarPartida" method="POST">
-												<tr>
-													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.dameFecha() %></td><td id="cel"><%=partida.dameNumJugadores()%></td>
-													<% if(partida.esCreador(usuario.nick)){ %>
-													<input type="hidden" name="id" value=<%=partida._id%>>
-													<td><input name="enviar" type="submit" value="eliminar partida"/></td>
-                                                    <% } %>
-												</tr>
-												</form>
-                                                <%});%>
-                                                <% } %>
-											</table>
-									</div>
-								<p id="men"><strong> |&#160;Partidas activas</strong></p>
-								<h5 id="texto2"><em>Haga click en el título de la partida para ver su estado actual.<br>
-													Se marcan resaltadas las partidas en las que es su turno.</em></h5>
-									<div id="tablas">
-											<table id="bordes">
-												<tr>
-													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">Fecha</td><td id="encabe">Turno</td>
-												</tr>
-												<% if(typeof activas != 'undefined'){ %>
-												<% activas.forEach(function(partida){ %>
-												<tr>
-													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
-												</tr>
-                                                <%});%>
-                                                <% } %>
-											</table>
-									</div>
-								<p id="men"><strong> |&#160;Partidas terminadas</strong></p>
-									<div id="tablas">
-											<table id="bordes">
-												<tr>
-													<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">¿Has ganado?</td>
-												</tr>
-                                                <% if(typeof finalizadas != 'undefined'){ %>
-												<% finalizadas.forEach(function(partida){ %>
-												<tr>
-													<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
-												</tr>
-                                                <%});%>
-												<% } %>
-											</table>
-									</div>
-							</div>
-            <% } else{ %>
-			<p id="saludo"><strong> |&#160;Bienvenido!</strong></p>
-			<h4 id="texto">Puedes identificarte o crear una nueva cuenta de usuario.</h4>
-            <% } %>
+<%- include("cabecera") %>
+<div id="container">
+    <% if(usuario){ %>
+	<div id="container">
+        <% if(usuario.sexo == 'H'){ %>
+		<p id="saludo"><strong> |&#160;Bienvenido , <%=usuario.nombre%> </strong></p>
+        <% } else { %>
+		<p id="saludo"><strong> |&#160;Bienvenida , <%=usuario.nombre%> </strong></p>
+        <% } %>
+		<p id="men"><strong> |&#160;Partidas abiertas</strong></p>
+
+
+                <%if(typeof abiertas != 'undefined'){ %>
+				<%if(abiertas.length > 0){ %>
+		<h5 id="texto2"><em>Las siguientes partidas han sido creadas por ti, pero aún están a la espera de recibir mas jugadores</em></h5>
+		<div id="tablas">
+			<table id="bordes">
+				<tr>
+					<td id="encabe">Nombre</td ><td id="encabe">Fecha</td><td id="encabe">Número de Jugadores</td>
+				</tr>
+                <% abiertas.forEach(function(partida){ %>
+				<form action="/cerrarPartida" method="POST">
+					<tr>
+						<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.dameFecha() %></td><td id="cel"><%=partida.dameNumJugadores()%></td>
+                        <% if(partida.esCreador(usuario.nick)){ %>
+						<input type="hidden" name="id" value=<%=partida._id%>>
+						<td><input name="enviar" type="submit" value="cerrar partida"/></td>
+                        <% } %>
+					</tr>
+				</form>
+                <%});%>
+			</table>
 		</div>
-	</body>
+                <% } else {%>
+		<h5 id="texto2"><em>No hay partidas abiertas por ti</em></h5>
+				<% } } %>
+
+		<p id="men"><strong> |&#160;Partidas activas</strong></p>
+                <% if(typeof activas != 'undefined'){ %>
+				<%if(activas > 0) {%>
+		<h5 id="texto2"><em>Haga click en el título de la partida para ver su estado actual.<br>
+				Se marcan resaltadas las partidas en las que es su turno.</em></h5>
+		<div id="tablas">
+			<table id="bordes">
+				<tr>
+					<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">Fecha</td><td id="encabe">Turno</td>
+				</tr>
+                <% activas.forEach(function(partida){ %>
+				<form action="/eliminarPartida" method="POST">
+				<tr>
+					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
+                    <% if(partida.esCreador(usuario.nick)){ %>
+					<input type="hidden" name="id" value=<%=partida._id%>>
+					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
+                    <% } %>
+				</tr>
+                <%});%>
+			</table>
+		</div>
+                <% } else { %>
+		<h5 id="texto2"><em>No hay Activas en las que participes</em></h5>
+                    <% } }  %>
+
+		<p id="men"><strong> |&#160;Partidas terminadas</strong></p>
+                <% if(typeof finalizadas != 'undefined'){ %>
+		<%if(finalizadas.length > 0) { %>
+		<div id="tablas">
+			<table id="bordes">
+				<tr>
+					<td id="encabe">Nombre</td><td id="encabe">Usuario Creador</td><td id="encabe">¿Has ganado?</td>
+				</tr>
+                <% finalizadas.forEach(function(partida){ %>
+				<form action="/eliminarPartida" method="POST">
+				<tr>
+					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
+                    <% if(partida.esCreador(usuario.nick)){ %>
+					<input type="hidden" name="id" value=<%=partida._id%>>
+					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
+                    <% } %>
+				</tr>
+                <%});%>
+			</table>
+		</div>
+                <% } else { %>
+		<h5 id="texto2"><em>No has participado en ninguna partida</em></h5>
+		<% }}%>
+
+	</div>
+    <% } else{ %>
+	<p id="saludo"><strong> |&#160;Bienvenido!</strong></p>
+	<h4 id="texto">Puedes identificarte o crear una nueva cuenta de usuario.</h4>
+    <% } %>
+</div>
+</body>
 </html>

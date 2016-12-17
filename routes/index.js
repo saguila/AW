@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
         res.render('index');
     }
     else{
-        require('../bin/mongooseResuts').buscarTodasPartidasUsuario(req.session.usuario.nick,function (err,result) {
+        require('../bin/mongooseResuts').consultaIndex(req.session.usuario.nick,function (err,result) {
 			res.render('index',{abiertas:result.abiertas,activas:result.activas,finalizadas:result.finalizadas});
         });
 	}

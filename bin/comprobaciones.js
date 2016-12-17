@@ -1,4 +1,4 @@
-
+consultas = require('../bin/consultasbd');
 module.exports = {
   noAutentificado :function (req,res,next){
   	if (!req.session.usuario) {
@@ -19,4 +19,16 @@ autentificacionRequerida: function (req,res,next){
   		res.redirect('/');
   	}
   }
+  ,
+	usuarioEnPartida: function (req,res,next){
+	arrayUser = [];
+	arrayUser.push(req.session.usuario);
+	consultas.findOne('partida',{},function (err,result) {
+
+    });
+	}
+	,
+	usuarioNoPartida: function (req,res,next){
+
+    }
 }
