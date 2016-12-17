@@ -15,7 +15,6 @@ function TurnosSegunJugadores(numeroJugadores){
   return nTurnos;
 }
 
-module.exports ={
-
+module.exports = {
 
 }

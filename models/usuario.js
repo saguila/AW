@@ -1,14 +1,7 @@
-var URL_DB = 'mongodb://saboteurApp:3,14016pi@localhost:3001/saboteurDB';
-var options = {
-    db: { native_parser: true },
-    server: { poolSize: 5 },
-    replset: { rs_name: 'saboteurRS' },
-    user: 'saboteurApp',
-    pass: '3,14016pi'
-}
-
 var mongoose = require('mongoose');
-mongoose.connect(URL_DB,options);
+var conf = require('../config');
+
+mongoose.connect(conf.DB.uri,conf.DB.options);
 var Schema = mongoose.Schema;
 
 /* Creamos un esquema para los usuarios */

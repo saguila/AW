@@ -1,16 +1,8 @@
-var URL_DB = 'mongodb://saboteurApp:3,14016pi@localhost:3001/saboteurDB';
-var options = {
-    db: { native_parser: true },
-    server: { poolSize: 5 },
-    replset: { rs_name: 'saboteurRS' },
-    user: 'saboteurApp',
-    pass: '3,14016pi'
-}
-
 var mongoose = require('mongoose');
-mongoose.connect(URL_DB,options);
-var Schema = mongoose.Schema;
+var conf = require('../config');
 
+mongoose.connect(conf.DB.uri,conf.DB.options);
+var Schema = mongoose.Schema;
 /* Creamos un esquema para los partidas */
 var esquemaPartidas = new Schema({
     creador: { type: String, required: true},
@@ -20,7 +12,7 @@ var esquemaPartidas = new Schema({
     numJugadores: {type:Number,min:3,max:7},
     turnosRestantes: Number,
     turnoPara: String,
-    tablero:{type:[Number],default:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+    tablero:{type:[Number],min:0,max:22,default:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
     manos : [{type:Schema.ObjectId,ref:'mano'}],
     comentarios:[{type:Schema.ObjectId,ref:'comentario'}],
     estado: {type:String,enum:['Abierta','Activa','Finalizada']},
