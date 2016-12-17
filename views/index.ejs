@@ -37,7 +37,7 @@
 
 		<p id="men"><strong> |&#160;Partidas activas</strong></p>
                 <% if(typeof activas != 'undefined'){ %>
-				<%if(activas > 0) {%>
+				<%if(activas.length > 0) { %>
 		<h5 id="texto2"><em>Haga click en el título de la partida para ver su estado actual.<br>
 				Se marcan resaltadas las partidas en las que es su turno.</em></h5>
 		<div id="tablas">
@@ -58,7 +58,7 @@
 			</table>
 		</div>
                 <% } else { %>
-		<h5 id="texto2"><em>No hay Activas en las que participes</em></h5>
+		<h5 id="texto2"><em>No hay partidas activas en las que participes</em></h5>
                     <% } }  %>
 
 		<p id="men"><strong> |&#160;Partidas terminadas</strong></p>

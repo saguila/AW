@@ -28,7 +28,7 @@ router.post('/crearPartida',comprobacion.autentificacionRequerida,function(req, 
 						dialog(res,'Error de la BD','/crearPartida',409);
 					}
 					else{
-                        dialog(res,'Se ha la partida correctamente','/',200);
+                        dialog(res,'Partida creada correctamente','/',200);
 					}
 			});
 		}
@@ -46,27 +46,36 @@ router.post('/cerrarPartida',comprobacion.autentificacionRequerida, function(req
     var _partida = require('../models/partida');
     _partida.findById(req.body.id,function (err,partida) {
 		if(partida){
-			if(partida.numeroJugadores() >= 1){
-				partida.update({_id:req.body.id},{$set:{estado:'Activa'}},function (err,result) {
+			if(partida.numeroJugadores() >= 3){
+				partida.estado = 'Activa';
+				partida.save(function(err){
+					if(err){
+                        dialog(res,'Error en la BD','/',200);
+					}
+					else{
+                    	dialog(res,partida.nombre +' pasada a activa','/',200);
+					}
+				});
+				/*
+				partida.update({_id:req.body.id},{$set : { estado:'Activa'}},function (err,result) {
 					if(result){
-                        dialog(res,partida.name + ' Pasada a Activa','/',200);
+                        dialog(res,partida.nombre + ' pasada a Activa','/',200);
 					}
 					else{
                         dialog(res,'Error en la BD','/',400);
 					}
-                });
+                });*/
 			}
 			else{
                dialog(res,'No se puede cerrar la partida numJugador < 3','/',404);
 			}
 		}
     });
-    res.redirect('/');
 });
 
 router.post('/eliminarPartida',comprobacion.autentificacionRequerida, function(req, res, next) {
         var _partida = require('../models/partida');
-        _partida.findByIdAndUpdate(req.body.id,{creador:req.session.usuario.nick},function(err,result){
+        _partida.findOneAndRemove(req.body.id,{creador:req.session.usuario.nick},function(err,result){
         	if(err){
                 dialog(res,'Error interno','/',500)
             }

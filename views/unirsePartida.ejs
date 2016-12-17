@@ -1,8 +1,8 @@
 <%- include("cabecera") %>
 <div id="container">
   <p id="saludo"><strong> |Unirse a Partida!</strong></p>
+  <%if(partidas.length > 0){ %>
   <h5 id="texto2"><em>A continuación se muestra una lista con las partidas abiertas que admiten jugadores.</em></h5>
-  <!--<p><%= partidas %></p>-->
   <div id="tablas">
         <table id="bordes">
           <tr>
@@ -18,6 +18,9 @@
           <%});%>
         </table>
   </div>
+  <% } else { %>
+  <h5 id="texto2"><em>No hay partidas disponibles</em></h5>
+  <% }%>
   <br><a href="/">Volver a la página de usuario</a>
 </div>
 </body>
