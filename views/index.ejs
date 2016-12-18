@@ -48,12 +48,13 @@
                 <% activas.forEach(function(partida){ %>
 				<form action="/eliminarPartida" method="POST">
 				<tr>
-					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td><td id="cel"><%=partida.turnoPara%></td>
+					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"><%=partida.fecha%></td><td id="cel"><%=partida.turnoPara%></td>
                     <% if(partida.esCreador(usuario.nick)){ %>
 					<input type="hidden" name="id" value=<%=partida._id%>>
 					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
                     <% } %>
 				</tr>
+				</form>
                 <%});%>
 			</table>
 		</div>
@@ -76,8 +77,10 @@
                     <% if(partida.esCreador(usuario.nick)){ %>
 					<input type="hidden" name="id" value=<%=partida._id%>>
 					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
+
                     <% } %>
 				</tr>
+				</form>
                 <%});%>
 			</table>
 		</div>

@@ -1,4 +1,12 @@
 var _partida = require('../models/partida');
+var _consultas = require('../bin/consultasbd');
+
+function recogerDatosCasilla(valorCasilla,array,callback){
+  _consultas.findOne('carta',{identificador:valorCasilla},function(err,result){
+    if(err) callback(err,null);
+    else callback(null,array.push(result));
+  });
+}
 
 function buscarPartidasUsuario(usuario,estado,callback,array){
     _partida.find({estado:estado}).where('jugadores').in(usuario).exec(function(err,result){
@@ -59,5 +67,17 @@ buscarTodasPartidasUsuario : function(stringUser,callback) {
         });
     });
 
-    }
+  }
+  ,
+  recogerDatosTablero: function(idPartida,callback){
+    var datos = [];
+    _partida.findById(idPartida,function(err,partida) {
+              partida.tablero.forEach(function(v,i){
+                recogerDatosCasilla(partida.tablero[i],datos,function(err,result){
+                  console.log(result);
+                });
+              });
+        callback(null,datos);
+    });
+  }
 }

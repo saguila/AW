@@ -43,32 +43,21 @@ router.post('/crearPartida',comprobacion.autentificacionRequerida,function(req, 
 });
 
 router.post('/cerrarPartida',comprobacion.autentificacionRequerida, function(req, res, next) {
+		var gestorPartidas = require('../bin/gestorPartidas');
     var _partida = require('../models/partida');
-    _partida.findById(req.body.id,function (err,partida) {
+    _partida.findOne({_id:req.body.id,creador:req.session.usuario.nick},function (err,partida) {
 		if(partida){
-			if(partida.numeroJugadores() >= 3){
-				partida.estado = 'Activa';
-				partida.save(function(err){
-					if(err){
-                        dialog(res,'Error en la BD','/',200);
-					}
-					else{
-                    	dialog(res,partida.nombre +' pasada a activa','/',200);
-					}
-				});
-				/*
-				partida.update({_id:req.body.id},{$set : { estado:'Activa'}},function (err,result) {
-					if(result){
-                        dialog(res,partida.nombre + ' pasada a Activa','/',200);
-					}
-					else{
-                        dialog(res,'Error en la BD','/',400);
-					}
-                });*/
-			}
+			if(partida.numeroJugadores() >= 1){
+			gestorPartidas.iniciaPartida(partida.id,function(err,result){
+				if(result)  dialog(res,partida.nombre +' pasada a activa','/',200);
+			});
+		}
 			else{
                dialog(res,'No se puede cerrar la partida numJugador < 3','/',404);
 			}
+		}
+		else{
+            dialog(res,'Operacion no permitida','/',404);
 		}
     });
 });
@@ -111,11 +100,11 @@ router.post('/unirsePartida/:id',comprobacion.autentificacionRequerida, function
 router.get('/partida/:id',comprobacion.autentificacionRequerida,function(req, res, next) {
 		require('../models/comentario');
     require('../models/mano');
+
 		var _partida = require('../models/partida');
 		var id = req.params.id;
 
-			_partida.findById(id).populate('comentarios').exec(function(err,result) {
-				console.log(result);
+			_partida.findById(id).populate('comentario').exec(function(err,result) {
                 res.render('partida',{partida:result});
 			});
 });

@@ -7,13 +7,13 @@ var Schema = mongoose.Schema;
 var esquemaPartidas = new Schema({
     creador: { type: String, required: true},
     nombre: String,
-    //fecha: { type : Date, default:Date.now()},
+    fecha: { type : Date, default:Date.now()},
     jugadores: [{type:String,unique: true}],
     numJugadores: {type:Number,min:3,max:7},
     turnosRestantes: Number,
     turnoPara: String,
     localizacionOro: {type:Number,min:0,max:48},
-    tablero:{type:[Number],min:0,max:22,default:[0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,0,0,0,0,0,0,21,0,0,0,0,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,20,0,0,0,0,0,0,0]},
+    tablero: [Number],
     manos : [{type:Schema.ObjectId,ref:'mano'}],
     comentarios:[{type:Schema.ObjectId,ref:'comentario'}],
     estado: {type:String,enum:['Abierta','Activa','Finalizada']},
@@ -28,6 +28,16 @@ esquemaPartidas.methods.esCreador = function(nick){
     return this.creador == nick;
 }
 
+esquemaPartidas.methods.datosCasilla = function (posCasilla,callback){
+    var _consultas = require('../bin/consultasbd');
+    _consultas.findOne('carta',{identificador:this.tablero[posCasilla]},function(err,result){
+        callback(null,result);
+    });
+}
+
+esquemaPartidas.methods.dameCartasUsuario = function (nick) {
+
+}
 
  esquemaPartidas.methods.numeroJugadores = function () {
  return this.jugadores.length;
@@ -37,6 +47,7 @@ esquemaPartidas.methods.esCreador = function(nick){
 esquemaPartidas.methods.dameNumJugadores = function () {
 return '' + this.jugadores.length +'/'+ this.numJugadores;
 }
+
 
 esquemaPartidas.methods.dameCamposPublicos = function(){
     return {

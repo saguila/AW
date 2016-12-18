@@ -2,7 +2,7 @@
 	background-image:url("/images/madera.png");
 }
 #encabezado{
-	margin: 10px 10px 25px;
+    margin: 10px 10px 25px;
 overflow: hidden;
 padding: 20px;
 background-color: #e2e2e2;
@@ -12,7 +12,7 @@ border-radius: 9px 9px 9px 9px;
 -webkit-border-radius: 9px 9px 9px 9px;
 border: 1px solid #000000;
 width: 150px;
-     height: 10px;
+     height: 30px;
 }
 ul {
     list-style-type: none;

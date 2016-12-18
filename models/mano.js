@@ -5,9 +5,9 @@ mongoose.connect(conf.DB.uri,conf.DB.options);
 var Schema = mongoose.Schema;
 var esquemaMano = new Schema({
     partida: {type: Schema.ObjectId, ref:'partida'},
-    usuario: {type: Schema.ObjectId, ref:'usuario'},
+    usuario: String,
     juego: {type:String,enum:['Saboteador','Buscador']},
-    cartas: [Number]
+    cartas: {type: [Number] ,ref:'carta'}
 });
 
 /* Usando el modelo creamos el mano */
