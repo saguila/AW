@@ -28,7 +28,12 @@ autentificacionRequerida: function (req,res,next){
     });
 	}
 	,
-	usuarioNoPartida: function (req,res,next){
-
+	esSuTurno: function (idPartida,idUsuario){
+        var _partida = require('../models/partida');
+        _partida.findById(idPartida,function (err,partida) {
+        	if(partida.turnoPara == idUsuario) return true;
+        	else return false;
+        });
+        return true;
     }
 }

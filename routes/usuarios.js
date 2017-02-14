@@ -56,9 +56,17 @@ router.post('/register', comprobacion.noAutentificado, multerFact.single("foto")
         if (req.body.pass == req.body.pass2) {
             if (req.body.sexo == 'H' || req.body.sexo == 'M') {
                 if (/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/.test(req.body.fNacimiento)) { //Comprobar el formato de la fecha
-                    var urlFichero = '';
+                    var path = require('path');
+                    var fs = require('fs');
+                    var urlFichero = path.join("uploads","profile-" + req.body.nick);
                     if (req.file) {
-                        urlFichero = req.file.path;
+                        fs.rename(req.file.path, urlFichero, function(err) {
+                            if ( err ) console.log(err);
+                        });
+                    }
+                    else{//Copiamos una imagen por defecto
+                        var from = path.join("uploads",'no-profile-image.ico');
+                        fs.createReadStream(from).pipe(fs.createWriteStream(urlFichero));
                     }
                     var esquemaUsuario = require('../models/usuario');
                     var nuevoUsuario = new esquemaUsuario({

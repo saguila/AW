@@ -1,5 +1,5 @@
 <%- include("cabecera") %>
-<div id="container">
+
     <% if(usuario){ %>
 	<div id="container">
         <% if(usuario.sexo == 'H'){ %>
@@ -8,8 +8,6 @@
 		<p id="saludo"><strong> |&#160;Bienvenida , <%=usuario.nombre%> </strong></p>
         <% } %>
 		<p id="men"><strong> |&#160;Partidas abiertas</strong></p>
-
-
                 <%if(typeof abiertas != 'undefined'){ %>
 				<%if(abiertas.length > 0){ %>
 		<h5 id="texto2"><em>Las siguientes partidas han sido creadas por ti, pero aún están a la espera de recibir mas jugadores</em></h5>
@@ -48,7 +46,11 @@
                 <% activas.forEach(function(partida){ %>
 				<form action="/eliminarPartida" method="POST">
 				<tr>
+					<% if(partida.turnoPara != usuario.nick){ %>
 					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"><%=partida.fecha%></td><td id="cel"><%=partida.turnoPara%></td>
+					<% } else { %>
+					<td id="cel2"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel2"><%=partida.creador%></td><td id="cel2"><%=partida.fecha%></td><td id="cel2"><%=partida.turnoPara%></td>
+					<% } %>
                     <% if(partida.esCreador(usuario.nick)){ %>
 					<input type="hidden" name="id" value=<%=partida._id%>>
 					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
@@ -73,9 +75,10 @@
                 <% finalizadas.forEach(function(partida){ %>
 				<form action="/eliminarPartida" method="POST">
 				<tr>
-					<td id="cel"><a href="/partida/<%= partida.id %>"><%=partida.nombre %></a></td><td id="cel"><%=partida.creador%></td><td id="cel"></td>
-                    <% if(partida.esCreador(usuario.nick)){ %>
-					<input type="hidden" name="id" value=<%=partida._id%>>
+					<td id="cel"><a href="/partida/<%= partida.p.id %>"><%=partida.p.nombre %></a></td><td id="cel"><%=partida.p.creador%></td>
+					<td id="cel"><%=partida.ganada%></td>
+                    <% if(partida.p.esCreador(usuario.nick)){ %>
+					<input type="hidden" name="id" value=<%=partida.p._id%>>
 					<td><input name="enviar" type="submit" value="eliminar partida"/></td>
 
                     <% } %>
@@ -93,6 +96,6 @@
 	<p id="saludo"><strong> |&#160;Bienvenido!</strong></p>
 	<h4 id="texto">Puedes identificarte o crear una nueva cuenta de usuario.</h4>
     <% } %>
-</div>
+
 </body>
 </html>

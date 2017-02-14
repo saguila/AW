@@ -6,20 +6,20 @@
 		<link href="/stylesheets/saboteur.css" rel="stylesheet" type="text/css"/>
 		</head>
 		<body id="all">
+		<div class="panelSuperior">
+		<div class="logo">
 		<a href="/"><img src="/images/Logo.png"></a>
+		</div>
 		<div id="encabezado">
             <% if(usuario){ %>
-            <% if (usuario.foto != '') { %>
 				<tr>
-				<td>Foto:</td>
-				<td><img src="<%= usuario.foto %>"></td> </tr>
-            <% } %>
+				<td><img src="/img/<%=usuario.nick%>"></td> </tr>
 			<p><%=usuario.nick%></p>
             <% } else { %>
 			<p>No estas conectado</p>
             <% } %>
 		</div>
-
+		</div>
 		<div id="menu">
 			 <ul>
                  <% if(usuario){ %>
@@ -31,5 +31,4 @@
 				  <li><a href="/register">NUEVO USUARIO</a></li>
 				 <% } %>
 			</ul>
-		</div>
 		</div>

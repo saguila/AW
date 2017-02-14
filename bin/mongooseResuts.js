@@ -9,7 +9,7 @@ function recogerDatosCasilla(valorCasilla,array,callback){
 }
 
 function buscarPartidasUsuario(usuario,estado,callback,array){
-    _partida.find({estado:estado}).where('jugadores').in(usuario).exec(function(err,result){
+    _partida.find({estado:estado}).where('jugadores.nombre').in(usuario).exec(function(err,result){
         if(err) callback(err,null);
         else{
             callback(null,array.push(result));
@@ -17,11 +17,26 @@ function buscarPartidasUsuario(usuario,estado,callback,array){
     });
 }
 
+
 function buscarPartidasUsuario2(usuario,estado,callback){
-    _partida.find({estado:estado}).where('jugadores').in(usuario).exec(function(err,result){
+    _partida.find({estado:estado}).where('jugadores.nombre').in(usuario).exec(function(err,result){
         if(err) callback(err,null);
         else{
-            callback(null,result);
+            if(estado === 'Finalizada'){
+               var array = [];
+                result.forEach(function (i) {
+                    var posUsuario = i.posUsuario(usuario);
+                    var hasGanado = "No";
+                    if (i.ganadores == i.jugadores[posUsuario].juego) {
+                        hasGanado = "Si";
+                    }
+                    array.push({p:i,ganada:hasGanado});
+                });
+                callback(null,array);
+            }
+            else{
+                callback(null,result);
+            }
         }
     });
 }
@@ -35,7 +50,7 @@ _partida.find({estado:'Abierta',creador:usuario},function(err,result){
 
 module.exports = {
 buscarPartidasUsuario : function(usuario,estado,callback,array){
-    _partida.find({estado:estado}).where('jugadores').in(usuario).exec(function(err,result){
+    _partida.find({estado:estado}).where('jugadores.nombre').in(usuario).exec(function(err,result){
         if(err) callback(err,null);
         else{
             callback(null,array.push(result));
@@ -67,17 +82,5 @@ buscarTodasPartidasUsuario : function(stringUser,callback) {
         });
     });
 
-  }
-  ,
-  recogerDatosTablero: function(idPartida,callback){
-    var datos = [];
-    _partida.findById(idPartida,function(err,partida) {
-              partida.tablero.forEach(function(v,i){
-                recogerDatosCasilla(partida.tablero[i],datos,function(err,result){
-                  console.log(result);
-                });
-              });
-        callback(null,datos);
-    });
   }
 }

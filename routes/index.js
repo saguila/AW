@@ -7,9 +7,11 @@ router.get('/', function(req, res, next) {
     }
     else{
         require('../bin/mongooseResuts').consultaIndex(req.session.usuario.nick,function (err,result) {
+            if(typeof (result.finalizadas) != 'undefined') {
+
+            }
 			res.render('index',{abiertas:result.abiertas,activas:result.activas,finalizadas:result.finalizadas});
         });
 	}
 });
-
 module.exports = router;

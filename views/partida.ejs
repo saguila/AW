@@ -2,58 +2,101 @@
 <div id="container">
   <p id="saludo"><strong> |Partida: </strong></p>
   <h5 id="texto2"><em>
+      <% if(typeof(partida.ganadores) == 'undefined') { %>
   Creada por: <%=partida.creador%><br>
   Jugadores: <%=partida.jugadores%><br>
   Turno de: <%=partida.turnoPara%><br>
   Turnos restantes: <%=partida.turnosRestantes%></em></h5>
-<% if(partida.tablero.length > 0) {%>
+  <% } else { %>
+  <h2>Partida Finalizada!</h2>
+  <h2>Han ganado los <%=partida.ganadores%>es</h2>
+  <% } %>
+<% if(typeof(tablero) !== 'undefined') {%>
+<% if(tablero.length > 0) { %>
 <p id="saludo"><strong> |Tablero: </strong></p>
-
-  <table width="700" height="700px"; border="0" cellspacing="2" cellpadding="2" bgcolor="#FFFFFF" align="center">
-    <% partida.tablero.forEach(function(v,i){ %>
-
-      <% if(i%7 == 0) {%>
-      <tr align="center">
+    <% if(partida.turnoPara == usuario.nick){ %>
+  <form method="POST" action="/jugarCarta/<%=partida.id%>">
+    <% } %>
+<div class="tablero" >
+  <table border="0" cellspacing="2" cellpadding="2" bgcolor="#000000" align="center">
+    <% tablero.forEach(function(v,i){ %>
+      <% if(i%7 == 0) { %>
+      <tr >
       <% } %>
 
-      <td id='<%=i%>' bgcolor="#61380B">
-          <%partida.datosCasilla(i,function(err,result){ %>
-          <p><%console.log(result.foto)%></p>
-          <% }); %>
+      <td>
+        <label>
+          <% if(partida.turnoPara == usuario.nick && pico == 'OK'){ %>
+          <input type="radio" name="selTablero" value="<%=i%>" />
+          <% } %>
+          <img src="<%=v.foto%>">
+        </label>
       </td>
 
-      <% if(i%7 == 6) {%>
+      <% if(i%7 == 6) { %>
       </tr>
       <% } %>
 
     <% }); %>
 
   </table>
+</div>
+<% } %>
 <% } %>
 
-  <!-- Estatico -->
-  <%partida.manos%>
+  <%if (typeof(cartas) != 'undefined') { %>
+      <%if(typeof(juego) != 'undefined') { %>
+    <h1 align="center"><%=juego%></h1>
+      <% }%>
   <p id="saludo"><strong> |Tus cartas: </strong></p>
+    <%if (cartas.length > 0) { %>
+  <div class="tablero" >
   <table border="0" cellspacing="2" cellpadding="2" bgcolor="#000000" align="center">
     <tr>
-      <td><img src="/images/Bomba.png"></td>
-      <td><img src="/images/PicoRoto.png"></td>
-      <td><img src="/images/PicoArreglado.png"></td>
-      <td><img src="/images/Lupa.png"></td>
-      <td><img src="/images/T7.png"></td>
-      <td><img src="/images/T12.png"></td>
-      <td><img src="/images/T2.png"></td>
+      <% cartas.forEach(function (i,index) { %>
+      <td>
+        <label>
+            <% if(partida.turnoPara == usuario.nick){ %>
+          <input type="radio" name="selCarta" value="<%=index%>" />
+          <% } %>
+          <img src="<%=i.foto%>">
+        </label></td>
+        <% }); %>
     </tr>
   </table>
+  </div>
+      <% if(partida.turnoPara == usuario.nick){ %>
+    <div class="gameTools">
+      <% if(pico == 'BRK'){ %>
+        <h2>Tienes el pico hecho una pena,reparalo o pide ayuda</h2>
+        <% } %>
+      <label>Opciones de Juego
+      <select name="opcion">
+        <option value="" selected="selected"></option>
+        <option value="descartar">Descartar Carta Seleccionada</option>
+        <%partida.jugadores.forEach(function(i){ %>
+        <option value="<%=i%>">Seleccionar como objectivo -> <%=i%></option>
+          <% })%>
+      </select></label>
+    <input name="submit" value="Jugar!" class="submit-button" type="submit">
+    </div>
+  </form>
+      <% } %>
+
+  <% } %>
+  <% } %>
 <!-- Fin -->
 
   <p id="saludo"><strong> |Comentarios: </strong></p>
-  <%if(partida.comentarios.length > 0) { %>
+    <%if (typeof(comentarios) !== 'undefined'){ %>
+    <%if(comentarios.length > 0) { %>
   <div class="comentarios">
-  <% partida.comentarios.forEach(function(comentario){ %>
+  <% comentarios.forEach(function(comentario){ %>
     <div class="comentario">
       <div class="author">
-        <p><%=usuario.nick%></p>
+        <img src="/img/<%=comentario.usuario%>">
+        <p><%=comentario.usuario%></p>
+        <p><%=comentario.fecha%></p>
       </div>
       <div class="contenido">
     <p><%=comentario.mensaje%></p>
@@ -65,11 +108,14 @@
   <h5 id="texto2"><em>No hay comentarios</em></h5>
     <% } %>
    <div class="respuesta">
+   <h2>Escribe tu comentario</h2>
   <form method="POST" action="/nuevoComentario/<%=partida.id%>">
-  <textarea name="nuevoComentario" id="nuevoComentario"></textarea>
-  <input name="submit" value="Submit" class="submit-button" type="submit">
+  <textarea type="text" name="nuevoComentario" id="nuevoComentario"></textarea>
+  <br>
+  <input name="submit" value="Enviar Comentario" class="submit-button" type="submit">
   </form>
    </div>
+    <% } %>
 </div>
 </body>
 </html>

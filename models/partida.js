@@ -1,21 +1,27 @@
 var mongoose = require('mongoose');
 var conf = require('../config');
-
 mongoose.connect(conf.DB.uri,conf.DB.options);
 var Schema = mongoose.Schema;
+
 /* Creamos un esquema para los partidas */
+
 var esquemaPartidas = new Schema({
     creador: { type: String, required: true},
     nombre: String,
     fecha: { type : Date, default:Date.now()},
-    jugadores: [{type:String,unique: true}],
+    jugadores: [{nombre:{type:String,unique: true},
+        juego: {type:String,enum:['Saboteador','Buscador']},
+        pico: {type:String,enum:['OK','BRK']},
+        mano:[Number]}],
+    comentarios:[{
+        usuario: String,
+        fecha: Date,
+        mensaje: String}],
     numJugadores: {type:Number,min:3,max:7},
     turnosRestantes: Number,
     turnoPara: String,
     localizacionOro: {type:Number,min:0,max:48},
     tablero: [Number],
-    manos : [{type:Schema.ObjectId,ref:'mano'}],
-    comentarios:[{type:Schema.ObjectId,ref:'comentario'}],
     estado: {type:String,enum:['Abierta','Activa','Finalizada']},
     ganadores: {type:String,enum:['Saboteador','Buscador']}
 });
@@ -35,29 +41,48 @@ esquemaPartidas.methods.datosCasilla = function (posCasilla,callback){
     });
 }
 
-esquemaPartidas.methods.dameCartasUsuario = function (nick) {
-
-}
 
  esquemaPartidas.methods.numeroJugadores = function () {
  return this.jugadores.length;
  }
 
-
 esquemaPartidas.methods.dameNumJugadores = function () {
 return '' + this.jugadores.length +'/'+ this.numJugadores;
 }
 
+esquemaPartidas.methods.dameNombres = function () {
+    var nombresJug = [];
+    this.jugadores.forEach(function(i){
+        nombresJug.push(i.nombre);
+    });
+    return nombresJug;
+}
+
+esquemaPartidas.methods.posUsuario = function (idUsuario) {
+    var posUsuario =  -1;
+    this.jugadores.forEach(function(item,index){
+        if(item.nombre == idUsuario){
+            posUsuario = index;
+        }
+    });
+    return posUsuario;
+}
 
 esquemaPartidas.methods.dameCamposPublicos = function(){
+    var nombresJug = [];
+    this.jugadores.forEach(function(i){
+        nombresJug.push(i.nombre);
+    });
     return {
-        id:this._id,
+        id : this.id,
         nombre: this.nombre,
         fecha: this._id.getTimestamp(),
-        jugadores: this.jugadores,
+        jugadores: nombresJug,
         creador: this.creador,
         estado: this.estado,
         turnoPara:this.turnoPara,
+        ganadores:this.ganadores,
+        turnosRestantes:this.turnosRestantes
     };
 }
 
